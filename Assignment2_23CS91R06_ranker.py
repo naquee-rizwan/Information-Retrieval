@@ -9,8 +9,8 @@ from string import punctuation
 import sys
 
 # Read inverted index's and CRAN folder's path passed from command line arguments
-inverted_index_path = "model_queries_23CS91R06.bin"  # sys.argv[1]
-cran_folder_path = "cran"  # sys.argv[2]
+cran_folder_path = sys.argv[1]  # "cran"
+inverted_index_path = sys.argv[2]  # "model_queries_23CS91R06.bin"
 
 # Get cran folder's document and query file's paths
 cran_document_path = os.path.join(cran_folder_path, "cran.all.1400")
@@ -40,7 +40,6 @@ def compute_document_frequency_from_inverted_index():
 
 compute_document_frequency_from_inverted_index()
 VOCABULARY_SIZE = len(document_frequency)
-
 
 # Populate bag of words matrix for term frequency calculation
 vectorized_documents = {}
@@ -96,7 +95,6 @@ def compute_vectorized_documents():
 
 
 compute_vectorized_documents()
-
 
 # Populate bag of words matrix for term frequency calculation for queries
 vectorized_queries = {}
@@ -167,7 +165,8 @@ def calculate_ranking_by_lnc_ltc_scheme():
         vectorized_documents_scheme_A[document] = vectorized_documents_scheme_A[document].copy()
         cosine_normalization_document = 0.0
         for token in vectorized_documents_scheme_A[document]:
-            vectorized_documents_scheme_A[document][token] = 1 + np.log10(vectorized_documents_scheme_A[document][token])
+            vectorized_documents_scheme_A[document][token] = 1 + np.log10(
+                vectorized_documents_scheme_A[document][token])
             cosine_normalization_document += vectorized_documents_scheme_A[document][token] ** 2
         for token in vectorized_documents_scheme_A[document]:
             vectorized_documents_scheme_A[document][token] /= np.sqrt(cosine_normalization_document)
@@ -195,7 +194,8 @@ def calculate_ranking_by_lnc_ltc_scheme():
             dot_product = 0.0
             for token in vectorized_queries_scheme_A[query]:
                 if token in vectorized_documents_scheme_A[document]:
-                    dot_product += vectorized_queries_scheme_A[query][token] * vectorized_documents_scheme_A[document][token]
+                    dot_product += vectorized_queries_scheme_A[query][token] * vectorized_documents_scheme_A[document][
+                        token]
             document_vector.append((-dot_product, document))
         document_vector.sort()
 
@@ -221,7 +221,8 @@ def calculate_ranking_by_lnc_Ltc_scheme():
         vectorized_documents_scheme_B[document] = vectorized_documents_scheme_B[document].copy()
         cosine_normalization_document = 0.0
         for token in vectorized_documents_scheme_B[document]:
-            vectorized_documents_scheme_B[document][token] = 1 + np.log10(vectorized_documents_scheme_B[document][token])
+            vectorized_documents_scheme_B[document][token] = 1 + np.log10(
+                vectorized_documents_scheme_B[document][token])
             cosine_normalization_document += vectorized_documents_scheme_B[document][token] ** 2
         for token in vectorized_documents_scheme_B[document]:
             vectorized_documents_scheme_B[document][token] /= np.sqrt(cosine_normalization_document)
@@ -240,7 +241,8 @@ def calculate_ranking_by_lnc_Ltc_scheme():
         average_term_frequency /= len(vectorized_queries_scheme_B[query])
 
         for token in vectorized_queries_scheme_B[query]:
-            vectorized_queries_scheme_B[query][token] = (1 + np.log10(vectorized_queries_scheme_B[query][token])) / (1 + np.log10(average_term_frequency))
+            vectorized_queries_scheme_B[query][token] = (1 + np.log10(vectorized_queries_scheme_B[query][token])) / (
+                        1 + np.log10(average_term_frequency))
             vectorized_queries_scheme_B[query][token] *= document_frequency_scheme_B[token]
             cosine_normalization_query += vectorized_queries_scheme_B[query][token] ** 2
 
@@ -274,4 +276,66 @@ calculate_ranking_by_lnc_Ltc_scheme()
 
 
 def calculate_ranking_by_anc_apc_scheme():
-    pass
+    vectorized_documents_scheme_C = vectorized_documents.copy()
+    vectorized_queries_scheme_C = vectorized_queries.copy()
+    document_frequency_scheme_C = document_frequency.copy()
+
+    # Computations for document vectors
+    for document in vectorized_documents_scheme_C:
+        vectorized_documents_scheme_C[document] = vectorized_documents_scheme_C[document].copy()
+        cosine_normalization_document = 0.0
+
+        maximum_document_term_frequency = max(vectorized_documents_scheme_C[document].values()) if len(
+            vectorized_documents_scheme_C[document].values()) > 0 else 0.0
+
+        for token in vectorized_documents_scheme_C[document]:
+            vectorized_documents_scheme_C[document][token] = 0.5 + (
+                        0.5 * vectorized_documents_scheme_C[document][token]) / maximum_document_term_frequency
+            cosine_normalization_document += vectorized_documents_scheme_C[document][token] ** 2
+
+        for token in vectorized_documents_scheme_C[document]:
+            vectorized_documents_scheme_C[document][token] /= np.sqrt(cosine_normalization_document)
+
+    # Computations for query vectors
+    for token in document_frequency_scheme_C:
+        document_frequency_scheme_C[token] = max(0.0, np.log10((CORPUS_SIZE / document_frequency_scheme_C[token]) - 1))
+
+    for query in vectorized_queries_scheme_C:
+        vectorized_queries_scheme_C[query] = vectorized_queries_scheme_C[query].copy()
+        cosine_normalization_query = 0.0
+
+        maximum_query_term_frequency = max(vectorized_queries_scheme_C[query].values())
+
+        for token in vectorized_queries_scheme_C[query]:
+            vectorized_queries_scheme_C[query][token] = 0.5 + (
+                        0.5 * vectorized_queries_scheme_C[query][token]) / maximum_query_term_frequency
+            vectorized_queries_scheme_C[query][token] *= document_frequency_scheme_C[token]
+            cosine_normalization_query += vectorized_queries_scheme_C[query][token] ** 2
+
+        for token in vectorized_queries_scheme_C[query]:
+            vectorized_queries_scheme_C[query][token] /= np.sqrt(cosine_normalization_query)
+
+    # Calculate ranking by dot product of each query and each document and write output in the file
+    file = open('Assignment2_23CS91R06_ranked_list_C.txt', 'w')
+
+    for query in vectorized_queries_scheme_C:
+        document_vector = []
+        for document in vectorized_documents_scheme_C:
+            dot_product = 0.0
+            for token in vectorized_queries_scheme_C[query]:
+                if token in vectorized_documents_scheme_C[document]:
+                    dot_product += vectorized_queries_scheme_C[query][token] * vectorized_documents_scheme_C[document][
+                        token]
+            document_vector.append((-dot_product, document))
+        document_vector.sort()
+
+        # Write output to file
+        file.writelines(query + " : ")
+        for document in document_vector[:50]:
+            file.writelines(str(document[1]) + " ")
+        file.writelines("\n")
+
+    file.close()
+
+
+calculate_ranking_by_anc_apc_scheme()
