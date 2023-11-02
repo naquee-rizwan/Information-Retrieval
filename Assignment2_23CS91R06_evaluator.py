@@ -11,7 +11,7 @@ retrieved_documents_text_file_argument = sys.argv[2]
 # Reading the gold standard text file and our retrieved responses' text file.
 
 # Before opening the file, checking if the file exists or not.
-# If it does not exist, exiting with an error message on console.
+# If it does not exist, exit with an error message on console.
 if os.path.exists(retrieved_documents_text_file_argument):
     file = open(retrieved_documents_text_file_argument, 'r')
     lines = file.read().split('\n')
@@ -61,6 +61,7 @@ assert (len(retrieved_documents_from_queries) == 225)
 for query in gold_standard_documents:
     gold_standard_documents[query].sort()
     for indexed_item, items in enumerate(gold_standard_documents[query]):
+        # Taking negative just for ease of decreasing order sorting
         items_copy = [items[1], -items[0]]
         gold_standard_documents[query][indexed_item] = (items_copy[0], items_copy[1])
 
