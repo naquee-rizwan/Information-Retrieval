@@ -31,7 +31,7 @@ Name - Naquee Rizwan
 - python Assignment2_23CS91R06_evaluator.py "cran/cranqrel" "Assignment2_23CS91R06_ranked_list_A.txt"
 - Ranked text file's name can only be one amongst these - ["Assignment2_23CS91R06_ranked_list_A.txt", "Assignment2_23CS91R06_ranked_list_B.txt", "Assignment2_23CS91R06_ranked_list_C.txt"]
 
-# Output pattern of Assignment2_23CS91R06_metrics_b.txt, Assignment2_23CS91R06_metrics_B.txt, Assignment2_23CS91R06_metrics_C.txt in order
+# Output pattern of Assignment2_23CS91R06_metrics_A.txt, Assignment2_23CS91R06_metrics_B.txt, Assignment2_23CS91R06_metrics_C.txt in order
 
 - Query-wise Average Precision (AP) @10
 - Query-wise Average Precision (AP) @20

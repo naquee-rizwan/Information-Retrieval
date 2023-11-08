@@ -91,7 +91,7 @@ def calculate_average_precision(_query_index, k):
                 number_of_documents += 1
                 total_precision += number_of_documents / (_index + 1)
 
-    return round(total_precision / k, 4)
+    return round(total_precision / number_of_documents, 4) if number_of_documents > 0 else 0.0
 
 
 file.writelines("Query-wise Average Precision (AP) @10\n\n")
