@@ -14,19 +14,19 @@ Name - Naquee Rizwan
 
 **----------Assignment2_23CS91R06_ranker.py----------**
 
--- [Command to run] --
+_-- [Command to run] --_
 - python Assignment2_23CS91R06_ranker.py "path_to_CRAN_folder" "path_to_model_queries_binary_file"
 
--- [Example] --
+_-- [Example] --_
 - Assuming the location of CRAN folder = "cran" and model queries binary file = "model_queries_23CS91R06.bin"
 - python Assignment2_23CS91R06_ranker.py "cran" "model_queries_23CS91R06.bin"
 
 **----------Assignment2_23CS91R06_evaluator.py----------**
 
--- [Command to run] --
+_-- [Command to run] --_
 - python Assignment2_23CS91R06_evaluator.py "path_to_gold_standard_ranked_list" "path_to_ranked_output_file"
 
--- [Example] --
+_-- [Example] --_
 - Assuming the path of gold standard ranked list = "cran/cranqrel" and path of ranked text file as per lnc.ltc scheme = "Assignment2_23CS91R06_ranked_list_A.txt"
 - python Assignment2_23CS91R06_evaluator.py "cran/cranqrel" "Assignment2_23CS91R06_ranked_list_A.txt"
 - Ranked text file's name can only be one amongst these - ["Assignment2_23CS91R06_ranked_list_A.txt", "Assignment2_23CS91R06_ranked_list_B.txt", "Assignment2_23CS91R06_ranked_list_C.txt"]
