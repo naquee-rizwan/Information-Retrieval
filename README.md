@@ -1,6 +1,6 @@
 # Information Retrieval
  
-----------Assignment1_23CS91R06_indexer.py----------
+**----------Assignment1_23CS91R06_indexer.py----------**
 
 _-- [Usage] --_
 - Word tokenizer
@@ -11,7 +11,7 @@ _-- [Usage] --_
 _-- [Command to run] --_
 - python Assignment1_23CS91R06_indexer.py "path_to_the_CRAN_folder"
 
-----------Assignment1_23CS91R06_parser.py----------
+**----------Assignment1_23CS91R06_parser.py----------**
 
 _-- [Usage] --_
 - Word tokenizer
@@ -22,7 +22,7 @@ _-- [Usage] --_
 _-- [Command to run] --_
 - python Assignment1_23CS91R06_parser.py "path_to_the_query_file"
 
-----------Assignment1_23CS91R06_bool.py----------
+**----------Assignment1_23CS91R06_bool.py----------**
 
 _-- [Usage] --_
 - Merging mechanism to get results of AND operation on query
