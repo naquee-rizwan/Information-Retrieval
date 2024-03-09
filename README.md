@@ -1,5 +1,5 @@
-Roll Number - 23CS91R06
-Name - Naquee Rizwan
+**Roll Number** - 23CS91R06
+**Name** - Naquee Rizwan
 
 # Information Retrieval
 
